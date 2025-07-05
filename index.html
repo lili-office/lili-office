@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>粒粒公司</title>
+    <style>
+        /* 全局样式 */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Microsoft YaHei', Arial, sans-serif;
+        }
+        
+        body {
+            height: 100vh;
+            overflow-x: hidden;
+            color: #fff;
+        }
+        
+        /* 静态海滩背景 */
+        .beach-bg {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            background: url('https://images.unsplash.com/photo-1507525428034-b723cf961d3e?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80') no-repeat center center;
+            background-size: cover;
+        }
+        
+        /* 内容容器 */
+        .container {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            text-align: center;
+            padding: 20px;
+        }
+        
+        /* 标题样式 */
+        .main-title {
+            font-size: 6rem;
+            font-weight: bold;
+            margin-bottom: 1rem;
+            text-shadow: 3px 3px 6px rgba(0, 0, 0, 0.5);
+        }
+        
+        .sub-title {
+            font-size: 2.5rem;
+            margin-bottom: 2rem;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+        
+        /* 打字效果 */
+        .typing-text {
+            font-size: 1.8rem;
+            margin-bottom: 3rem;
+            min-height: 2.5rem;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5);
+        }
+        
+        .typing-cursor {
+            display: inline-block;
+            width: 10px;
+            height: 2rem;
+            background-color: #fff;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+            margin-left: 5px;
+        }
+        
+        @keyframes blink {
+            0%, 100% {
+                opacity: 1;
+            }
+            50% {
+                opacity: 0;
+            }
+        }
+        
+        /* 按钮样式 */
+        .btn {
+            display: inline-block;
+            background-color: rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 15px 30px;
+            border-radius: 50px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            text-decoration: none;
+            margin: 10px;
+            transition: all 0.3s;
+            border: 2px solid #fff;
+            backdrop-filter: blur(5px);
+        }
+        
+        .btn:hover {
+            background-color: rgba(255, 255, 255, 0.3);
+            transform: translateY(-3px);
+        }
+        
+        /* 文章内容 */
+        .article-content {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 30px;
+            background-color: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            color: #333;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+        }
+        
+        .article-title {
+            font-size: 2rem;
+            margin-bottom: 20px;
+            color: #2a3f54;
+        }
+        
+        .article-text {
+            margin-bottom: 20px;
+            line-height: 1.8;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .main-title {
+                font-size: 4rem;
+            }
+            
+            .sub-title {
+                font-size: 1.8rem;
+            }
+            
+            .typing-text {
+                font-size: 1.4rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 静态海滩背景 -->
+    <div class="beach-bg"></div>
+    
+    <!-- 主要内容 -->
+    <div class="container">
+        <h1 class="main-title">粒粒公司</h1>
+        <h2 class="sub-title">欢迎来到粒粒公司</h2>        
+        <!-- 打字效果 -->
+        <div class="typing-text" id="typing"></div>
+        
+        <!-- 跳转按钮 -->
+        <a href="#article" class="btn">文章内容</a>
+        <a href="https://aqtw.qq.com/web202206/index.html" class="btn" target="_blank">下载暗区突围</a>
+    </div>
+    
+    <!-- 文章内容 -->
+    <div id="article" class="article-content">
+        <h3 class="article-title">关于粒粒公司</h3>
+        <p class="article-text">粒粒公司成立于2024年</p>
+        <p class="article-text">董事长：粒粒入  (唐晨越)</p>
+        <p class="article-text">其他成员：叶粒入  (EasonYe），王粒入，健胃消食片（赖宇哲)，乱斗甜瓜  (国服第一坐骑）</p>
+    </div>
+    
+    <!-- 打字效果脚本 -->
+    <script>
+        const texts = "欢迎来到粒粒公司",
+        let textIndex = 0;
+        let charIndex = 0;
+        let isDeleting = false;
+        const typingElement = document.getElementById('typing');
+        
+        function type() {
+            const currentText = texts[textIndex];
+            
+            if (isDeleting) {
+                typingElement.textContent = currentText.substring(0, charIndex - 1);
+                charIndex--;
+            } else {
+                typingElement.textContent = currentText.substring(0, charIndex + 1);
+                charIndex++;
+            }
+            
+            if (!isDeleting && charIndex === currentText.length) {
+                isDeleting = true;
+                setTimeout(type, 2000);
+            } else if (isDeleting && charIndex === 0) {
+                isDeleting = false;
+                textIndex = (textIndex + 1) % texts.length;
+                setTimeout(type, 500);
+            } else {
+                const speed = isDeleting ? 100 : 150;
+                setTimeout(type, speed);
+            }
+        }
+        
+        // 添加光标
+        function addCursor() {
+            const cursor = document.createElement('span');
+            cursor.className = 'typing-cursor';
+            typingElement.appendChild(cursor);
+        }
+        
+        // 启动打字效果
+        window.onload = function() {
+            type();
+            addCursor();
+            
+            // 平滑滚动
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    
+                    document.querySelector(this.getAttribute('href')).scrollIntoView({
+                        behavior: 'smooth'
+                    });
+                });
+            });
+        };
+    </script>
+</body>
+</html>
